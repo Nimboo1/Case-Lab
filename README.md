@@ -1,2 +1,4 @@
 # Case-Lab
-tasks for case lab
+Задание "Спойлер"
+
+Деплой: https://fantastic-lokum-bc2d31.netlify.app/
