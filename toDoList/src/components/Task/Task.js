@@ -3,15 +3,18 @@ class Task {
   _text;
   _user;
 
+  _server;
+
   _elem;
   _checkbox;
   _deleteBtn;
   _textElement;
 
-  constructor(id, text, user, isComplete) {
+  constructor(id, text, user, isComplete, server) {
     this._text = text;
     this._id = id;
     this._user = user;
+    this._server = server;
 
     this._elem = document.createElement('div');
     this._elem.classList.add('todo-item');
@@ -28,6 +31,11 @@ class Task {
 
     this._deleteBtn = document.createElement('button');
     this._deleteBtn.classList.add('close');
+    this._deleteBtn.addEventListener('click', () => {
+      this._server.delete(this._id).then((isSuccess) => {
+        if (isSuccess) this._elem.remove();
+      });
+    });
     //TODO: event
 
     this._elem.append(this._checkbox, this._textElement, this._deleteBtn);

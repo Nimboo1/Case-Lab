@@ -7,8 +7,6 @@ class App {
     users: 1,
   };
   _users;
-  _tasks = [];
-  _tasksElements = [];
 
   constructor() {
     this._server = new Server();
@@ -33,7 +31,13 @@ class App {
         this._server.read(this._urls.todos).then((data) => {
           if (data !== 0) {
             for (let i = 0; i < data.length; i++) {
-              const todoItem = new Task(data[i].id, data[i].title, this._users[data[i].userId], data[i].completed);
+              const todoItem = new Task(
+                data[i].id,
+                data[i].title,
+                this._users[data[i].userId],
+                data[i].completed,
+                this._server
+              );
               this._toDoList.append(todoItem.getElement());
             }
           }
@@ -48,7 +52,7 @@ class App {
       }
 
       this._server.create(this._userSelect.value, this._toDoInput.value).then((data) => {
-        const todoItem = new Task(data.id, data.title, this._users[data.userId], data.completed);
+        const todoItem = new Task(data.id, data.title, this._users[data.userId], data.completed, this._server);
         this._toDoList.prepend(todoItem.getElement());
       });
 

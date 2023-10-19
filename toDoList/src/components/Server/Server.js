@@ -2,7 +2,7 @@ class Server {
   _urls = ['https://jsonplaceholder.typicode.com/todos', 'https://jsonplaceholder.typicode.com/users'];
 
   async create(userId, text) {
-    let response = await fetch(this._urls[1], {
+    let response = await fetch(this._urls[0], {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -25,7 +25,6 @@ class Server {
 
   async read(urlNumber) {
     let response = await fetch(this._urls[urlNumber]);
-    console.log(response.status, this._urls[urlNumber]);
     if (response.ok) {
       const data = await response.json();
 
@@ -36,7 +35,6 @@ class Server {
         });
         return users;
       } else {
-        console.log(data);
         return data;
       }
     } else {
@@ -44,9 +42,19 @@ class Server {
       return 0;
     }
   }
-  //async update() {}
+  async update() {}
 
-  //async delete() {}
+  async delete(todoId) {
+    let response = await fetch(this._urls[0] + `/${todoId}`, {
+      method: 'DELETE',
+    });
+    if (response.ok) {
+      return response.ok;
+    } else {
+      alert(`HTTP error: ${response.status}`);
+      return response.ok;
+    }
+  }
 }
 
 export default Server;
