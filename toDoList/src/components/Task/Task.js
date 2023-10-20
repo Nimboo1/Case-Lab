@@ -23,7 +23,17 @@ class Task {
     this._checkbox.type = 'checkbox';
     this._checkbox.checked = isComplete;
     this._checkbox.name = id;
-    //TODO: event
+    this._checkbox.addEventListener('click', (e) => {
+      e.preventDefault();
+      this._server
+        .update(this._id, this._checkbox.checked)
+        .then((data) => {
+          this._checkbox.checked = data.completed;
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    });
 
     this._textElement = document.createElement('div');
     this._textElement.classList.add('task-text');
@@ -36,7 +46,6 @@ class Task {
         if (isSuccess) this._elem.remove();
       });
     });
-    //TODO: event
 
     this._elem.append(this._checkbox, this._textElement, this._deleteBtn);
   }

@@ -2,7 +2,7 @@ class Server {
   _urls = ['https://jsonplaceholder.typicode.com/todos', 'https://jsonplaceholder.typicode.com/users'];
 
   async create(userId, text) {
-    let response = await fetch(this._urls[0], {
+    const response = await fetch(this._urls[0], {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
@@ -18,13 +18,12 @@ class Server {
       let data = await response.json();
       return data;
     } else {
-      alert(`HTTP error: ${response.status}`);
-      return 0;
+      throw new Error(`HTTP error ${response.status}`);
     }
   }
 
   async read(urlNumber) {
-    let response = await fetch(this._urls[urlNumber]);
+    const response = await fetch(this._urls[urlNumber]);
     if (response.ok) {
       const data = await response.json();
 
@@ -38,21 +37,37 @@ class Server {
         return data;
       }
     } else {
-      alert(`HTTP error: ${response.status}`);
-      return 0;
+      throw new Error(`HTTP error ${response.status}`);
     }
   }
-  async update() {}
+
+  async update(todoId, isComplete) {
+    const response = await fetch(this._urls[0] + `/${todoId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify({
+        completed: isComplete,
+      }),
+    });
+
+    if (response.ok) {
+      let data = await response.json();
+      return data;
+    } else {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+  }
 
   async delete(todoId) {
-    let response = await fetch(this._urls[0] + `/${todoId}`, {
+    const response = await fetch(this._urls[0] + `/${todoId}`, {
       method: 'DELETE',
     });
     if (response.ok) {
       return response.ok;
     } else {
-      alert(`HTTP error: ${response.status}`);
-      return response.ok;
+      throw new Error(`HTTP error ${response.status}`);
     }
   }
 }
