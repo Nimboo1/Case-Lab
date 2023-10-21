@@ -28,18 +28,23 @@ class App {
         }
       })
       .then(() => {
-        this._server.read(this._urls.todos).then((data) => {
-          for (let i = 0; i < data.length; i++) {
-            const todoItem = new Task(
-              data[i].id,
-              data[i].title,
-              this._users[data[i].userId],
-              data[i].completed,
-              this._server
-            );
-            this._toDoList.append(todoItem.getElement());
-          }
-        });
+        this._server
+          .read(this._urls.todos)
+          .then((data) => {
+            for (let i = 0; i < data.length; i++) {
+              const todoItem = new Task(
+                data[i].id,
+                data[i].title,
+                this._users[data[i].userId],
+                data[i].completed,
+                this._server
+              );
+              this._toDoList.append(todoItem.getElement());
+            }
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
       })
       .catch((err) => {
         alert(err.message);
