@@ -57,7 +57,11 @@ ul {
 .close {
   color: red;
   cursor: pointer;
-  font-weight: bolder;
+  border: none;
+  background-color: transparent;
+  font-size: 36px;
+  padding: 0;
+  height: 28px;
 }
 .close:hover {
   color: tomato;
@@ -65,4 +69,8 @@ ul {
 
 .task-text {
   flex-grow: 1;
+}
+
+.complete {
+  text-decoration: line-through;
 }

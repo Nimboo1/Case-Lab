@@ -29,6 +29,7 @@ class Task {
         .update(this._id, this._checkbox.checked)
         .then((data) => {
           this._checkbox.checked = data.completed;
+          this._textElement.classList.toggle('complete');
         })
         .catch((err) => {
           alert(err.message);
@@ -36,10 +37,11 @@ class Task {
     });
 
     this._textElement = document.createElement('div');
-    this._textElement.classList.add('task-text');
+    this._textElement.className = isComplete ? 'task-text complete' : 'task-text';
     this._textElement.innerText = `${text} : ${user}`;
 
     this._deleteBtn = document.createElement('button');
+    this._deleteBtn.innerText = '\u02DF';
     this._deleteBtn.classList.add('close');
     this._deleteBtn.addEventListener('click', () => {
       this._server.delete(this._id).then((isSuccess) => {
